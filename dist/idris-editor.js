@@ -1796,22 +1796,27 @@ window.onload = function() {
 
 state.evt.on('got-data', function(state) { mainMenu(state) })
 state.evt.on('select-by-bbox', function(state) { bboxMenu(state) })
-state.evt.on('select-by-prop', function(state) { console.log(state) })
-state.evt.on('select-by-click', function(state) { console.log(state) })
-state.evt.on('prop-add', function(state) { console.log(state) })
-state.evt.on('prop-rem', function(state) { console.log(state) })
 state.evt.on('bbox-draw', function(state) {
-	__webpack_require__.e/* require.ensure */(0).then((function(require) {
+	__webpack_require__.e/* require.ensure */(4).then((function(require) {
 		var bboxDraw = __webpack_require__(2) 
 		bboxDraw(state)
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe)
 })
 state.evt.on('bbox-vals', function(state) {
-	__webpack_require__.e/* require.ensure */(1).then((function(require) {
+	__webpack_require__.e/* require.ensure */(3).then((function(require) {
 		var bboxVals = __webpack_require__(3) 
 		bboxVals(state)
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe)
 })
+state.evt.on('select-by-prop', function(state) {
+	__webpack_require__.e/* require.ensure */(0).then((function(require) {
+		var bboxVals = __webpack_require__(43) 
+		bboxVals(state)
+	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe)
+})
+state.evt.on('select-by-click', function(state) { console.log(state) })
+state.evt.on('prop-add', function(state) { console.log(state) })
+state.evt.on('prop-rem', function(state) { console.log(state) })
 state.evt.on('cancel', function(state) { mainMenu(state) })
 state.evt.on('continue', function(state) { continuePrompt(state) })
 state.evt.on('restart', function(state) { init({evt: state.evt}) })

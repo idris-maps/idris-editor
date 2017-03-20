@@ -33,8 +33,6 @@ a { text-decoration: none; color: #B24F3F; font-weight: bold; }
 	background-color: #9EB4BA
 }
 #dz-txt { width: 100%; text-align: center; font-size: 0.6em; margin-top: 5px; }
-#file-input { height: 0.1px; width: 0.1px; overflow: hidden; }
-
 
 #root p {
 	width: 95%;
@@ -69,6 +67,14 @@ a { text-decoration: none; color: #B24F3F; font-weight: bold; }
 	width: 100%;
 	margin: auto;
 	margin-top: 5px;
+	border: 1px solid #29606F;
+	background-color: #9EB4BA;
+	color: #29606F;
+	padding: 6px 12px;
+	font-weight: 400;
+	line-height: 1.42857;
+	font-family: inherit;
+	font-size: inherit;
 }
 
 #root textarea {
@@ -80,6 +86,14 @@ a { text-decoration: none; color: #B24F3F; font-weight: bold; }
 #root select {
 	width: 100%;
 	margin-top: 5px;
+	border: 1px solid #29606F;
+	background-color: #9EB4BA;
+	color: #29606F;
+	padding: 6px 12px;
+	font-weight: 400;
+	line-height: 1.42857;
+	font-family: inherit;
+	font-size: inherit;
 }
 
 .bbox-img {
@@ -90,6 +104,16 @@ a { text-decoration: none; color: #B24F3F; font-weight: bold; }
 .bbox-img img {
 	width: 80px
 }
+
+.scroll-y {
+	max-height: 200px;
+	overflow-y: scroll;
+	border: 1px solid #29606F;
+	background-color: #9EB4BA;
+	color: #29606F;
+}
+
+.checkbox-item input { width: 15% !important; }
 
 #err {
 	font-size: 0.8em;
@@ -113,3 +137,5 @@ a { text-decoration: none; color: #B24F3F; font-weight: bold; }
 	width: 30px
 }
 
+
+#file-input { height: 0.1px !important; width: 0.1px !important!; overflow: hidden !important; padding: 0px !important; border: 0px none white !important; }

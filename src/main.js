@@ -13,10 +13,6 @@ window.onload = function() {
 
 state.evt.on('got-data', function(state) { mainMenu(state) })
 state.evt.on('select-by-bbox', function(state) { bboxMenu(state) })
-state.evt.on('select-by-prop', function(state) { console.log(state) })
-state.evt.on('select-by-click', function(state) { console.log(state) })
-state.evt.on('prop-add', function(state) { console.log(state) })
-state.evt.on('prop-rem', function(state) { console.log(state) })
 state.evt.on('bbox-draw', function(state) {
 	require.ensure(['./components/select-by-bbox-map'], function(require) {
 		var bboxDraw = require('./components/select-by-bbox-map') 
@@ -29,6 +25,15 @@ state.evt.on('bbox-vals', function(state) {
 		bboxVals(state)
 	})
 })
+state.evt.on('select-by-prop', function(state) {
+	require.ensure(['./components/select-by-property'], function(require) {
+		var bboxVals = require('./components/select-by-property') 
+		bboxVals(state)
+	})
+})
+state.evt.on('select-by-click', function(state) { console.log(state) })
+state.evt.on('prop-add', function(state) { console.log(state) })
+state.evt.on('prop-rem', function(state) { console.log(state) })
 state.evt.on('cancel', function(state) { mainMenu(state) })
 state.evt.on('continue', function(state) { continuePrompt(state) })
 state.evt.on('restart', function(state) { init({evt: state.evt}) })
