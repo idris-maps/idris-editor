@@ -35,7 +35,7 @@ var process = xml.create('div')
 var processP = process.c('p')
 processP.c('b').d('Processing')
 processP.c('br')
-processP.c('span').d('...')
+processP.c('span').a({ id: 'progress' }).d('...')
 processP.c('br')
 
 exports.process = process.inner()

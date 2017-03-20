@@ -2,7 +2,7 @@ var L = require('leaflet')
 var L_Ctrl = require('./lib/leaflet-ctrl')
 var ctrl = require('./lib/ctrl')
 var html = require('./lib/html')
-var process = require('./lib/process')
+var process = require('../processing/select-by-bbox')
 var Emitter = require('events').EventEmitter
 var save = require('../utils/save')
 

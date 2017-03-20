@@ -13,6 +13,7 @@ function html(n, callback) {
 	p.c('b').d('Continue editing')
 	root.c('button').a({ id: 'continue-same' }).d('The original file')
 	root.c('button').a({ id: 'continue-new' }).d('The edited file')
+	root.c('button').a({ id: 'new-file' }).d('Edit a new file')
 	document.getElementById('root').innerHTML = root.inner()
 	callback()
 }
@@ -29,5 +30,9 @@ function ctrl(state) {
 		state.newdata = undefined
 		state.page = 'cancel'	
 		state.evt.emit('cancel', state)	
+	}
+	document.getElementById('new-file').onclick = function() {
+		state.page = 'restart'
+		state.evt.emit('restart', state)
 	}
 }

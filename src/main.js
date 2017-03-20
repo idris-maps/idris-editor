@@ -23,9 +23,15 @@ state.evt.on('bbox-draw', function(state) {
 		bboxDraw(state)
 	})
 })
-state.evt.on('bbox-vals', function(state) { console.log(state) })
+state.evt.on('bbox-vals', function(state) {
+	require.ensure(['./components/select-by-bbox'], function(require) {
+		var bboxVals = require('./components/select-by-bbox') 
+		bboxVals(state)
+	})
+})
 state.evt.on('cancel', function(state) { mainMenu(state) })
-state.evt.on('continue', function(state) { console.log('continue'); continuePrompt(state) })
+state.evt.on('continue', function(state) { continuePrompt(state) })
+state.evt.on('restart', function(state) { init({evt: state.evt}) })
 
 function init(state) {
 	drop('root', function(data) {

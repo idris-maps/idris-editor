@@ -27,7 +27,7 @@
 /******/
 /******/ 	// objects to store loaded and loading chunks
 /******/ 	var installedChunks = {
-/******/ 		1: 0
+/******/ 		2: 0
 /******/ 	};
 /******/
 /******/ 	// The require function
@@ -144,7 +144,7 @@
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var El = __webpack_require__(9)
+var El = __webpack_require__(10)
 
 exports.create = function(el) {
 	var element = new El(el)
@@ -461,7 +461,9 @@ function isUndefined(arg) {
 
 
 /***/ }),
-/* 2 */
+/* 2 */,
+/* 3 */,
+/* 4 */
 /***/ (function(module, exports) {
 
 exports.write = function(m) {
@@ -477,11 +479,10 @@ exports.add = function(m) {
 
 
 /***/ }),
-/* 3 */,
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var msg = __webpack_require__(2)
+var msg = __webpack_require__(4)
 var json = __webpack_require__(13)
 var geojson = __webpack_require__(14)
 
@@ -567,7 +568,7 @@ function isTooBig(file) {
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var xml = __webpack_require__(0)
@@ -601,7 +602,7 @@ function addClick(id, state) {
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var xml = __webpack_require__(0)
@@ -619,6 +620,7 @@ function html(n, callback) {
 	p.c('b').d('Continue editing')
 	root.c('button').a({ id: 'continue-same' }).d('The original file')
 	root.c('button').a({ id: 'continue-new' }).d('The edited file')
+	root.c('button').a({ id: 'new-file' }).d('Edit a new file')
 	document.getElementById('root').innerHTML = root.inner()
 	callback()
 }
@@ -636,16 +638,20 @@ function ctrl(state) {
 		state.page = 'cancel'	
 		state.evt.emit('cancel', state)	
 	}
+	document.getElementById('new-file').onclick = function() {
+		state.page = 'restart'
+		state.evt.emit('restart', state)
+	}
 }
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var html = __webpack_require__(11)
 var init = __webpack_require__(12)
-var verify = __webpack_require__(4)
+var verify = __webpack_require__(5)
 var Emitter = __webpack_require__(1).EventEmitter
 
 module.exports = function(divId, callback) {
@@ -666,7 +672,7 @@ module.exports = function(divId, callback) {
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var html = __webpack_require__(17)
@@ -679,7 +685,7 @@ module.exports = function(state) {
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports) {
 
 module.exports = function(el) {
@@ -746,7 +752,6 @@ function attrString(o) {
 
 
 /***/ }),
-/* 10 */,
 /* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -778,8 +783,8 @@ exports.browse = function(id, callback) {
 /* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var msg = __webpack_require__(2)
-var verify = __webpack_require__(4)
+var msg = __webpack_require__(4)
+var verify = __webpack_require__(5)
 
 module.exports = function(evt) {
 	if(window.FileReader) {
@@ -1776,10 +1781,10 @@ module.exports = function(callback) {
 /* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var drop = __webpack_require__(7)
-var mainMenu = __webpack_require__(8)
-var bboxMenu = __webpack_require__(5)
-var continuePrompt = __webpack_require__(6)
+var drop = __webpack_require__(8)
+var mainMenu = __webpack_require__(9)
+var bboxMenu = __webpack_require__(6)
+var continuePrompt = __webpack_require__(7)
 
 var Emitter = __webpack_require__(1).EventEmitter
 var evt = new Emitter()
@@ -1797,13 +1802,19 @@ state.evt.on('prop-add', function(state) { console.log(state) })
 state.evt.on('prop-rem', function(state) { console.log(state) })
 state.evt.on('bbox-draw', function(state) {
 	__webpack_require__.e/* require.ensure */(0).then((function(require) {
-		var bboxDraw = __webpack_require__(3) 
+		var bboxDraw = __webpack_require__(2) 
 		bboxDraw(state)
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe)
 })
-state.evt.on('bbox-vals', function(state) { console.log(state) })
+state.evt.on('bbox-vals', function(state) {
+	__webpack_require__.e/* require.ensure */(1).then((function(require) {
+		var bboxVals = __webpack_require__(3) 
+		bboxVals(state)
+	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe)
+})
 state.evt.on('cancel', function(state) { mainMenu(state) })
-state.evt.on('continue', function(state) { console.log('continue'); continuePrompt(state) })
+state.evt.on('continue', function(state) { continuePrompt(state) })
+state.evt.on('restart', function(state) { init({evt: state.evt}) })
 
 function init(state) {
 	drop('root', function(data) {

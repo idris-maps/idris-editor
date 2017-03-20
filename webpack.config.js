@@ -17,7 +17,8 @@ module.exports = {
 		new CopyWebpackPlugin([
 			{from: 'src/public/style.css'},
 			{from: 'src/public/leaflet.css'},
-			{from: 'src/public/img'}
+			{from: 'src/public/img'},
+			{from: 'src/public/images', to: 'images'},
 		]),
 /*
 		new webpack.DefinePlugin({

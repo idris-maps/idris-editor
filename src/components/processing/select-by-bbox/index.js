@@ -1,17 +1,42 @@
-var intersect = require('turf-intersect')
+var crop = require('./lib/crop')
+var intersect = require('./lib/intersect')
+var within = require('./lib/within')
 
 module.exports = function(config) {
 	var msg = document.getElementById(config.progressId)
 	var bbox = bbToFeat(config.bbox)
 	if(config.type === 'crop') { 
-		cropLoop(0, config.feats, bbox, [], msg, function(toKeep) { done(config, toKeep, msg) }) 
+		crop(0, config.feats, bbox, [], msg, function(toKeep) { done(config, toKeep, msg) }) 
 	} else if(config.type === 'intersect') { 
-		intersectLoop(0, config.feats, bbox, [], msg, function(toKeep) { done(config, toKeep, msg) }) 
+		intersect(0, config.feats, bbox, [], msg, function(toKeep) { done(config, toKeep, msg) }) 
 	} else {
-		withinLoop(0, config.feats, bbox, [], msg, function(toKeep) { done(config, toKeep, msg) })
+		within(0, config.feats, bbox, [], msg, function(toKeep) { done(config, toKeep, msg) })
 	}
 }
 
+function done(config, feats, msg) {
+	msg.innerHTML = 'saving...'
+	var n = config.type + '.json'
+	config.evt.emit('new-collection', {type: 'FeatureCollection', features: feats}, n)
+}
+
+function bbToFeat(bb) {
+	return {
+		type: 'Feature',
+		properties: {},
+		geometry: {
+			type: 'Polygon',
+			coordinates: [[
+				[bb[0], bb[1]],
+				[bb[0], bb[3]],
+				[bb[2], bb[3]],
+				[bb[2], bb[1]],
+				[bb[0], bb[1]]
+			]]
+		}
+	}
+}
+/*
 function withinLoop(i, feats, bbox, toKeep, msg, callback) {
 	if(i === feats.length) { callback(toKeep) }
 	else {
@@ -95,28 +120,7 @@ function cropLoop(i, feats, bbox, toKeep, msg, callback) {
 	} 
 } 
 
-function done(config, feats, msg) {
-	msg.innerHTML = 'saving...'
-	var n = config.type + '.json'
-	config.evt.emit('new-collection', {type: 'FeatureCollection', features: feats}, n)
-}
 
-function bbToFeat(bb) {
-	return {
-		type: 'Feature',
-		properties: {},
-		geometry: {
-			type: 'Polygon',
-			coordinates: [[
-				[bb[0], bb[1]],
-				[bb[0], bb[3]],
-				[bb[2], bb[3]],
-				[bb[2], bb[1]],
-				[bb[0], bb[1]]
-			]]
-		}
-	}
-}
 
 function isSame(c1, c2) {
 	var s1 = JSON.stringify(c1)
@@ -155,3 +159,4 @@ function pointIsInside(ptFeat, bboxFeat) {
 		return false
 	}
 }
+*/
