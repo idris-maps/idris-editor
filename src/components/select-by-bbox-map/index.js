@@ -10,7 +10,8 @@ module.exports = function(state, callback) {
 	var evt = new Emitter()
 	var map = L.map('map')
 	switchView('map')
-	window.onresize = function() { switchView('map') }
+	var mapView = true
+	window.onresize = function() { if(mapView) { switchView('map') } }
 	var data = state.data
 	var dataLayer = L.geoJSON(data, {color: '#437380'}).addTo(map)
 	map.fitBounds(dataLayer.getBounds())
@@ -37,10 +38,9 @@ module.exports = function(state, callback) {
 	})
 
 	evt.on('new-collection', function(col, name) {
-		map.remove()
-		switchView('root')
 		state.page = 'continue'
 		state.newdata = col
+		rmMap()
 		state.evt.emit('continue', state)
 		save.json(name, col)
 	})
@@ -51,11 +51,20 @@ module.exports = function(state, callback) {
 	})
 	
 	evt.on('cancel', function() {
-		map.remove()
-		switchView('root')
-		state.page = 'cancel' 
+		state.page = 'cancel'
+		rmMap()
 		state.evt.emit('cancel', state) 
 	})
+	function rmMap() {
+			switchView('root')
+			mapView = false
+			//map.remove()
+			var el = document.getElementById('map')
+			el.parentNode.removeChild(el)
+			var newEl = document.createElement('div')
+			newEl.id = 'map'
+			document.body.appendChild(newEl)
+	}
 }
 
 function switchView(id) {

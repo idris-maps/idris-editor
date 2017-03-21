@@ -5,10 +5,10 @@ webpackJsonp([1],[
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var html = __webpack_require__(34)
-var ctrl = __webpack_require__(42)
-var save = __webpack_require__(33)
-var process = __webpack_require__(28)
+var html = __webpack_require__(37)
+var ctrl = __webpack_require__(46)
+var save = __webpack_require__(27)
+var process = __webpack_require__(32)
 var Emitter = __webpack_require__(1).EventEmitter
 
 module.exports = function(state) {
@@ -67,11 +67,13 @@ function Config(divId, evt, data) {
 /* 16 */,
 /* 17 */,
 /* 18 */,
-/* 19 */
+/* 19 */,
+/* 20 */,
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // depend on jsts for now https://github.com/bjornharrtell/jsts/blob/master/examples/overlay.html
-var jsts = __webpack_require__(25);
+var jsts = __webpack_require__(31);
 
 /**
  * Takes two {@link Polygon|polygons} and finds their intersection. If they share a border, returns the border; if they don't intersect, returns undefined.
@@ -155,10 +157,28 @@ module.exports = function intersect(poly1, poly2) {
 
 
 /***/ }),
-/* 20 */
+/* 22 */
+/***/ (function(module, exports) {
+
+module.exports = function() {
+	throw new Error("define cannot be used indirect");
+};
+
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports) {
+
+/* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {/* globals __webpack_amd_options__ */
+module.exports = __webpack_amd_options__;
+
+/* WEBPACK VAR INJECTION */}.call(exports, {}))
+
+/***/ }),
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var lineCrop = __webpack_require__(31)
+var lineCrop = __webpack_require__(35)
 
 exports.within = function(feat, bboxFeat) {
 	var bb = bbox(bboxFeat)
@@ -268,7 +288,7 @@ function ptIsIn(pt, bb) {
 
 
 /***/ }),
-/* 21 */
+/* 25 */
 /***/ (function(module, exports) {
 
 module.exports = function(ptFeat, bboxFeat) {
@@ -291,7 +311,7 @@ module.exports = function(ptFeat, bboxFeat) {
 
 
 /***/ }),
-/* 22 */
+/* 26 */
 /***/ (function(module, exports) {
 
 module.exports = function(ptFeat, bboxFeat) {
@@ -310,10 +330,40 @@ module.exports = function(ptFeat, bboxFeat) {
 
 
 /***/ }),
-/* 23 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var lineInt = __webpack_require__(24)
+var __WEBPACK_AMD_DEFINE_RESULT__;/*! @source http://purl.eligrey.com/github/FileSaver.js/blob/master/FileSaver.js */
+var saveAs=saveAs||function(e){"use strict";if(typeof e==="undefined"||typeof navigator!=="undefined"&&/MSIE [1-9]\./.test(navigator.userAgent)){return}var t=e.document,n=function(){return e.URL||e.webkitURL||e},r=t.createElementNS("http://www.w3.org/1999/xhtml","a"),o="download"in r,a=function(e){var t=new MouseEvent("click");e.dispatchEvent(t)},i=/constructor/i.test(e.HTMLElement)||e.safari,f=/CriOS\/[\d]+/.test(navigator.userAgent),u=function(t){(e.setImmediate||e.setTimeout)(function(){throw t},0)},s="application/octet-stream",d=1e3*40,c=function(e){var t=function(){if(typeof e==="string"){n().revokeObjectURL(e)}else{e.remove()}};setTimeout(t,d)},l=function(e,t,n){t=[].concat(t);var r=t.length;while(r--){var o=e["on"+t[r]];if(typeof o==="function"){try{o.call(e,n||e)}catch(a){u(a)}}}},p=function(e){if(/^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(e.type)){return new Blob([String.fromCharCode(65279),e],{type:e.type})}return e},v=function(t,u,d){if(!d){t=p(t)}var v=this,w=t.type,m=w===s,y,h=function(){l(v,"writestart progress write writeend".split(" "))},S=function(){if((f||m&&i)&&e.FileReader){var r=new FileReader;r.onloadend=function(){var t=f?r.result:r.result.replace(/^data:[^;]*;/,"data:attachment/file;");var n=e.open(t,"_blank");if(!n)e.location.href=t;t=undefined;v.readyState=v.DONE;h()};r.readAsDataURL(t);v.readyState=v.INIT;return}if(!y){y=n().createObjectURL(t)}if(m){e.location.href=y}else{var o=e.open(y,"_blank");if(!o){e.location.href=y}}v.readyState=v.DONE;h();c(y)};v.readyState=v.INIT;if(o){y=n().createObjectURL(t);setTimeout(function(){r.href=y;r.download=u;a(r);h();c(y);v.readyState=v.DONE});return}S()},w=v.prototype,m=function(e,t,n){return new v(e,t||e.name||"download",n)};if(typeof navigator!=="undefined"&&navigator.msSaveOrOpenBlob){return function(e,t,n){t=t||e.name||"download";if(!n){e=p(e)}return navigator.msSaveOrOpenBlob(e,t)}}w.abort=function(){};w.readyState=w.INIT=0;w.WRITING=1;w.DONE=2;w.error=w.onwritestart=w.onprogress=w.onwrite=w.onabort=w.onerror=w.onwriteend=null;return m}(typeof self!=="undefined"&&self||typeof window!=="undefined"&&window||this.content);if(typeof module!=="undefined"&&module.exports){module.exports.saveAs=saveAs}else if("function"!=="undefined"&&__webpack_require__(22)!==null&&__webpack_require__(23)!==null){!(__WEBPACK_AMD_DEFINE_RESULT__ = function(){return saveAs}.call(exports, __webpack_require__, exports, module),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))}
+
+exports.json = function(fileName, data) {
+	var blob = new Blob([JSON.stringify(data)], {type: 'application/json;charset=utf-8'})
+	saveAs(blob, fileName)
+}
+
+exports.text = function(fileName, string) {
+	var blob = new Blob([string], {type: 'text/plain;charset=utf-8'})
+	saveAs(blob, fileName)
+}
+
+exports.svg = function(fileName, string) {
+	var blob = new Blob([string], {type: 'image/svg+xml;charset=utf-8'})
+	saveAs(blob, fileName)
+}
+
+exports.blob = function(fileName, blob) {
+	saveAs(blob, fileName)
+}
+
+
+
+/***/ }),
+/* 28 */,
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var lineInt = __webpack_require__(30)
 
 exports.features = function(obj1, obj2, callback) {
 	var coords1 = obj1.geometry.coordinates
@@ -336,7 +386,7 @@ exports.coordinates = function(obj1, obj2, callback) {
 
 
 /***/ }),
-/* 24 */
+/* 30 */
 /***/ (function(module, exports) {
 
 exports.one = function(line1, line2, callback) {
@@ -441,7 +491,7 @@ function getCollisionPt(p0, p1, p2, p3) {
 
 
 /***/ }),
-/* 25 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // JSTS. See https://github.com/bjornharrtell/jsts
@@ -466,30 +516,12 @@ return m},Rs.isInCircleNonRobust=function(t,e,n,i){var r=(t.x*t.x+t.y*t.y)*Rs.tr
 
 
 /***/ }),
-/* 26 */
-/***/ (function(module, exports) {
-
-module.exports = function() {
-	throw new Error("define cannot be used indirect");
-};
-
-
-/***/ }),
-/* 27 */
-/***/ (function(module, exports) {
-
-/* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {/* globals __webpack_amd_options__ */
-module.exports = __webpack_amd_options__;
-
-/* WEBPACK VAR INJECTION */}.call(exports, {}))
-
-/***/ }),
-/* 28 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var crop = __webpack_require__(29)
-var intersect = __webpack_require__(30)
-var within = __webpack_require__(32)
+var crop = __webpack_require__(33)
+var intersect = __webpack_require__(34)
+var within = __webpack_require__(36)
 
 module.exports = function(config) {
 	var msg = document.getElementById(config.progressId)
@@ -652,13 +684,13 @@ function pointIsInside(ptFeat, bboxFeat) {
 
 
 /***/ }),
-/* 29 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var intersect = __webpack_require__(19)
-var pointIsInside = __webpack_require__(22)
-var multiPointsInside = __webpack_require__(21)
-var line = __webpack_require__(20)
+var intersect = __webpack_require__(21)
+var pointIsInside = __webpack_require__(26)
+var multiPointsInside = __webpack_require__(25)
+var line = __webpack_require__(24)
 
 module.exports = function(i, feats, bbox, toKeep, msg, callback) {
 	cropLoop(i, feats, bbox, toKeep, msg, function(r) { callback(r) })
@@ -696,13 +728,13 @@ function cropLoop(i, feats, bbox, toKeep, msg, callback) {
 
 
 /***/ }),
-/* 30 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var intersect = __webpack_require__(19)
-var pointIsInside = __webpack_require__(22)
-var multiPointIsInside = __webpack_require__(21)
-var line = __webpack_require__(20)
+var intersect = __webpack_require__(21)
+var pointIsInside = __webpack_require__(26)
+var multiPointIsInside = __webpack_require__(25)
+var line = __webpack_require__(24)
 
 module.exports = function(i, feats, bbox, toKeep, msg, callback) {
 	intersectLoop(i, feats, bbox, toKeep, msg, function(r) { callback(r) })
@@ -737,10 +769,10 @@ function intersectLoop(i, feats, bbox, toKeep, msg, callback) {
 
 
 /***/ }),
-/* 31 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var inter = __webpack_require__(23)
+var inter = __webpack_require__(29)
 
 module.exports = function(lineCoords, bboxLine, bb) {
 	var lineParts = []
@@ -800,13 +832,13 @@ function isIn(pt, bb) {
 
 
 /***/ }),
-/* 32 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var intersect = __webpack_require__(19)
-var pointIsInside = __webpack_require__(22)
-var multiPointIsInside = __webpack_require__(21)
-var line = __webpack_require__(20)
+var intersect = __webpack_require__(21)
+var pointIsInside = __webpack_require__(26)
+var multiPointIsInside = __webpack_require__(25)
+var line = __webpack_require__(24)
 
 module.exports = function(i, feats, bbox, toKeep, msg, callback) {
 	withinLoop(i, feats, bbox, toKeep, msg, function(r) { callback(r) })
@@ -850,39 +882,10 @@ function isSame(c1, c2) {
 
 
 /***/ }),
-/* 33 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_RESULT__;/*! @source http://purl.eligrey.com/github/FileSaver.js/blob/master/FileSaver.js */
-var saveAs=saveAs||function(e){"use strict";if(typeof e==="undefined"||typeof navigator!=="undefined"&&/MSIE [1-9]\./.test(navigator.userAgent)){return}var t=e.document,n=function(){return e.URL||e.webkitURL||e},r=t.createElementNS("http://www.w3.org/1999/xhtml","a"),o="download"in r,a=function(e){var t=new MouseEvent("click");e.dispatchEvent(t)},i=/constructor/i.test(e.HTMLElement)||e.safari,f=/CriOS\/[\d]+/.test(navigator.userAgent),u=function(t){(e.setImmediate||e.setTimeout)(function(){throw t},0)},s="application/octet-stream",d=1e3*40,c=function(e){var t=function(){if(typeof e==="string"){n().revokeObjectURL(e)}else{e.remove()}};setTimeout(t,d)},l=function(e,t,n){t=[].concat(t);var r=t.length;while(r--){var o=e["on"+t[r]];if(typeof o==="function"){try{o.call(e,n||e)}catch(a){u(a)}}}},p=function(e){if(/^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(e.type)){return new Blob([String.fromCharCode(65279),e],{type:e.type})}return e},v=function(t,u,d){if(!d){t=p(t)}var v=this,w=t.type,m=w===s,y,h=function(){l(v,"writestart progress write writeend".split(" "))},S=function(){if((f||m&&i)&&e.FileReader){var r=new FileReader;r.onloadend=function(){var t=f?r.result:r.result.replace(/^data:[^;]*;/,"data:attachment/file;");var n=e.open(t,"_blank");if(!n)e.location.href=t;t=undefined;v.readyState=v.DONE;h()};r.readAsDataURL(t);v.readyState=v.INIT;return}if(!y){y=n().createObjectURL(t)}if(m){e.location.href=y}else{var o=e.open(y,"_blank");if(!o){e.location.href=y}}v.readyState=v.DONE;h();c(y)};v.readyState=v.INIT;if(o){y=n().createObjectURL(t);setTimeout(function(){r.href=y;r.download=u;a(r);h();c(y);v.readyState=v.DONE});return}S()},w=v.prototype,m=function(e,t,n){return new v(e,t||e.name||"download",n)};if(typeof navigator!=="undefined"&&navigator.msSaveOrOpenBlob){return function(e,t,n){t=t||e.name||"download";if(!n){e=p(e)}return navigator.msSaveOrOpenBlob(e,t)}}w.abort=function(){};w.readyState=w.INIT=0;w.WRITING=1;w.DONE=2;w.error=w.onwritestart=w.onprogress=w.onwrite=w.onabort=w.onerror=w.onwriteend=null;return m}(typeof self!=="undefined"&&self||typeof window!=="undefined"&&window||this.content);if(typeof module!=="undefined"&&module.exports){module.exports.saveAs=saveAs}else if("function"!=="undefined"&&__webpack_require__(26)!==null&&__webpack_require__(27)!==null){!(__WEBPACK_AMD_DEFINE_RESULT__ = function(){return saveAs}.call(exports, __webpack_require__, exports, module),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))}
-
-exports.json = function(fileName, data) {
-	var blob = new Blob([JSON.stringify(data)], {type: 'application/json;charset=utf-8'})
-	saveAs(blob, fileName)
-}
-
-exports.text = function(fileName, string) {
-	var blob = new Blob([string], {type: 'text/plain;charset=utf-8'})
-	saveAs(blob, fileName)
-}
-
-exports.svg = function(fileName, string) {
-	var blob = new Blob([string], {type: 'image/svg+xml;charset=utf-8'})
-	saveAs(blob, fileName)
-}
-
-exports.blob = function(fileName, blob) {
-	saveAs(blob, fileName)
-}
-
-
-
-/***/ }),
-/* 34 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var img = __webpack_require__(41)
+var img = __webpack_require__(45)
 var xml = __webpack_require__(0)
 
 exports.choose = function(config, callback) {
@@ -943,13 +946,14 @@ exports.processing = function(config, callback) {
 
 
 /***/ }),
-/* 35 */,
-/* 36 */,
-/* 37 */,
 /* 38 */,
 /* 39 */,
 /* 40 */,
-/* 41 */
+/* 41 */,
+/* 42 */,
+/* 43 */,
+/* 44 */,
+/* 45 */
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -959,10 +963,10 @@ module.exports = {
 };
 
 /***/ }),
-/* 42 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var html = __webpack_require__(34)
+var html = __webpack_require__(37)
 
 exports.choose = function(config) {
 	document.getElementById('within-bbox').onclick = function() {

@@ -31,7 +31,12 @@ state.evt.on('select-by-prop', function(state) {
 		bboxVals(state)
 	})
 })
-state.evt.on('select-by-click', function(state) { console.log(state) })
+state.evt.on('select-by-click', function(state) {
+	require.ensure(['./components/select-by-click'], function(require) {
+		var selectByClick = require('./components/select-by-click') 
+		selectByClick(state)
+	})
+})
 state.evt.on('prop-add', function(state) { console.log(state) })
 state.evt.on('prop-rem', function(state) { console.log(state) })
 state.evt.on('cancel', function(state) { mainMenu(state) })

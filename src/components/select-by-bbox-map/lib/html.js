@@ -26,7 +26,7 @@ var typeDiv3 = type.c('div').a({ 'class': 'l-img-c' })
 typeDiv3.c('img').a({ id: 'redraw', 'class': 'l-img-sm', 
 	src: 'data:image/png;base64,' + img.draw, alt: 'redraw' })
 type.c('hr')
-type.c('button').a({ id: 'cancel-draw' }).d('Cancel')
+type.c('button').a({ id: 'cancel-draw', style: 'width:100%' }).d('Cancel')
 type.c('br')
 
 exports.type = type.inner()
