@@ -23,6 +23,7 @@
   "dependencies": {
     "idris-line-intersect": "0.0.1",
     "leaflet": "^1.0.3",
+    "papaparse": "^4.2.0",
     "turf-intersect": "^3.0.12",
     "xml-string": "^1.0.0"
   }

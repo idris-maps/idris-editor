@@ -1,4 +1,4 @@
-var drop = require('./components/drop-zone-geojson-simple')
+var drop = require('./components/drop-zone-geojson')
 var mainMenu = require('./components/main-menu')
 var bboxMenu = require('./components/bbox-menu')
 var continuePrompt = require('./components/continue-prompt')
@@ -37,7 +37,12 @@ state.evt.on('select-by-click', function(state) {
 		selectByClick(state)
 	})
 })
-state.evt.on('prop-add', function(state) { console.log(state) })
+state.evt.on('prop-add', function(state) {
+	require.ensure(['./components/edit-properties-add-csv'], function(require) {
+		var addCsv = require('./components/edit-properties-add-csv') 
+		addCsv(state)
+	})
+})
 state.evt.on('prop-rem', function(state) {
 	require.ensure(['./components/edit-properties-remove'], function(require) {
 		var propRem = require('./components/edit-properties-remove') 

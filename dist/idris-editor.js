@@ -27,7 +27,7 @@
 /******/
 /******/ 	// objects to store loaded and loading chunks
 /******/ 	var installedChunks = {
-/******/ 		4: 0
+/******/ 		6: 0
 /******/ 	};
 /******/
 /******/ 	// The require function
@@ -137,14 +137,14 @@
 /******/ 	__webpack_require__.oe = function(err) { console.error(err); throw err; };
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 20);
+/******/ 	return __webpack_require__(__webpack_require__.s = 22);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var El = __webpack_require__(12)
+var El = __webpack_require__(14)
 
 exports.create = function(el) {
 	var element = new El(el)
@@ -465,7 +465,9 @@ function isUndefined(arg) {
 /* 3 */,
 /* 4 */,
 /* 5 */,
-/* 6 */
+/* 6 */,
+/* 7 */,
+/* 8 */
 /***/ (function(module, exports) {
 
 exports.write = function(m) {
@@ -481,12 +483,12 @@ exports.add = function(m) {
 
 
 /***/ }),
-/* 7 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var msg = __webpack_require__(6)
-var json = __webpack_require__(15)
-var geojson = __webpack_require__(16)
+var msg = __webpack_require__(8)
+var json = __webpack_require__(17)
+var geojson = __webpack_require__(18)
 
 module.exports = function(file, evt) {
 	msg.write('Verifying document...')
@@ -570,7 +572,7 @@ function isTooBig(file) {
 
 
 /***/ }),
-/* 8 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var xml = __webpack_require__(0)
@@ -604,7 +606,7 @@ function addClick(id, state) {
 
 
 /***/ }),
-/* 9 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var xml = __webpack_require__(0)
@@ -648,12 +650,12 @@ function ctrl(state) {
 
 
 /***/ }),
-/* 10 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var html = __webpack_require__(13)
-var init = __webpack_require__(14)
-var verify = __webpack_require__(7)
+var html = __webpack_require__(15)
+var init = __webpack_require__(16)
+var verify = __webpack_require__(9)
 var Emitter = __webpack_require__(1).EventEmitter
 
 module.exports = function(divId, callback) {
@@ -674,11 +676,11 @@ module.exports = function(divId, callback) {
 
 
 /***/ }),
-/* 11 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var html = __webpack_require__(19)
-var ctrl = __webpack_require__(18)
+var html = __webpack_require__(21)
+var ctrl = __webpack_require__(20)
 module.exports = function(state) {
 	html(function() {
 		ctrl(state)
@@ -687,7 +689,7 @@ module.exports = function(state) {
 
 
 /***/ }),
-/* 12 */
+/* 14 */
 /***/ (function(module, exports) {
 
 module.exports = function(el) {
@@ -754,7 +756,7 @@ function attrString(o) {
 
 
 /***/ }),
-/* 13 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var xml = __webpack_require__(0)
@@ -782,11 +784,11 @@ exports.browse = function(id, callback) {
 
 
 /***/ }),
-/* 14 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var msg = __webpack_require__(6)
-var verify = __webpack_require__(7)
+var msg = __webpack_require__(8)
+var verify = __webpack_require__(9)
 
 module.exports = function(evt) {
 	if(window.FileReader) {
@@ -817,7 +819,7 @@ function rmDefault(el) {
 
 
 /***/ }),
-/* 15 */
+/* 17 */
 /***/ (function(module, exports) {
 
 module.exports = function(file, callback) {
@@ -830,10 +832,10 @@ module.exports = function(file, callback) {
 
 
 /***/ }),
-/* 16 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var GJV = __webpack_require__(17)
+var GJV = __webpack_require__(19)
 
 module.exports = function(json, callback) {
 	if(json.type !== 'FeatureCollection') {
@@ -847,7 +849,7 @@ module.exports = function(json, callback) {
 
 
 /***/ }),
-/* 17 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -1736,7 +1738,7 @@ module.exports = function(json, callback) {
 
 
 /***/ }),
-/* 18 */
+/* 20 */
 /***/ (function(module, exports) {
 
 module.exports = function(state) {
@@ -1758,7 +1760,7 @@ function addClick(id, state) {
 
 
 /***/ }),
-/* 19 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var xml = __webpack_require__(0)
@@ -1780,13 +1782,13 @@ module.exports = function(callback) {
 
 
 /***/ }),
-/* 20 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var drop = __webpack_require__(10)
-var mainMenu = __webpack_require__(11)
-var bboxMenu = __webpack_require__(8)
-var continuePrompt = __webpack_require__(9)
+var drop = __webpack_require__(12)
+var mainMenu = __webpack_require__(13)
+var bboxMenu = __webpack_require__(10)
+var continuePrompt = __webpack_require__(11)
 
 var Emitter = __webpack_require__(1).EventEmitter
 var evt = new Emitter()
@@ -1799,33 +1801,38 @@ window.onload = function() {
 state.evt.on('got-data', function(state) { mainMenu(state) })
 state.evt.on('select-by-bbox', function(state) { bboxMenu(state) })
 state.evt.on('bbox-draw', function(state) {
-	__webpack_require__.e/* require.ensure */(6).then((function(require) {
-		var bboxDraw = __webpack_require__(2) 
+	__webpack_require__.e/* require.ensure */(0).then((function(require) {
+		var bboxDraw = __webpack_require__(4) 
 		bboxDraw(state)
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe)
 })
 state.evt.on('bbox-vals', function(state) {
-	__webpack_require__.e/* require.ensure */(7).then((function(require) {
-		var bboxVals = __webpack_require__(3) 
+	__webpack_require__.e/* require.ensure */(2).then((function(require) {
+		var bboxVals = __webpack_require__(5) 
 		bboxVals(state)
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe)
 })
 state.evt.on('select-by-prop', function(state) {
-	__webpack_require__.e/* require.ensure */(8).then((function(require) {
-		var bboxVals = __webpack_require__(5) 
+	__webpack_require__.e/* require.ensure */(3).then((function(require) {
+		var bboxVals = __webpack_require__(7) 
 		bboxVals(state)
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe)
 })
 state.evt.on('select-by-click', function(state) {
 	__webpack_require__.e/* require.ensure */(5).then((function(require) {
-		var selectByClick = __webpack_require__(4) 
+		var selectByClick = __webpack_require__(6) 
 		selectByClick(state)
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe)
 })
-state.evt.on('prop-add', function(state) { console.log(state) })
+state.evt.on('prop-add', function(state) {
+	__webpack_require__.e/* require.ensure */(1).then((function(require) {
+		var addCsv = __webpack_require__(2) 
+		addCsv(state)
+	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe)
+})
 state.evt.on('prop-rem', function(state) {
-	__webpack_require__.e/* require.ensure */(0).then((function(require) {
-		var propRem = __webpack_require__(60) 
+	__webpack_require__.e/* require.ensure */(4).then((function(require) {
+		var propRem = __webpack_require__(3) 
 		propRem(state)
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe)
 })

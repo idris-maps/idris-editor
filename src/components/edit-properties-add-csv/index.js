@@ -1,0 +1,78 @@
+var geo = require('../utils/geo')
+var html = require('./lib/html')
+var ctrl = require('./lib/ctrl')
+var parseCsv = require('./lib/parse')
+var Emitter = require('events').EventEmitter
+var drop = require('../drop-zone-csv')
+var utils = require('./lib/utils')
+var save = require('../utils/save')
+
+module.exports = function(state) {
+	var divId = 'root'
+	var data = state.data
+	var evt = new Emitter()
+	var conf = {}
+	conf.feats = data.features
+	conf.geoProps = geo.getAllProperties(data.features)
+
+	drop(divId, evt, function(csvData) {
+		html.parsing(divId, function() {
+			parseCsv(csvData, function(result) {
+				utils.checkParsed(evt, result)
+			})
+		})
+	})
+
+	evt.on('parse-errors', function(errs) {
+		html.parseErrors(divId, errs, function() {
+			ctrl.parseErrors(evt)
+		})
+	})
+
+	evt.on('parse-success', function(csv) {
+		conf.csv = csv
+		html.header(divId, csv[0], function() {
+			ctrl.header(evt)
+		})
+	})
+
+	evt.on('is-not-head', function() {
+		html.setHead(divId, conf.csv[0], function() {
+			ctrl.setHead(evt, conf.csv[0].length)
+		})
+	})
+
+	evt.on('is-head', function() {
+		evt.emit('got-header', conf.csv[0], true)
+	})
+
+	evt.on('got-header', function(head, removeFirst) {
+		conf.head = head
+		if(removeFirst) { conf.csv.splice(0,1) }
+		conf.csvJson = utils.csvToJson(conf.head, conf.csv)
+		html.joinProps(divId, conf.geoProps, conf.head, function() {
+			ctrl.joinProps(evt)
+		})
+	})
+
+	evt.on('join-props', function(geoProp, csvProp) {
+		conf.joinProps = { geo: geoProp, csv: csvProp }
+		html.joining(divId, function() {
+			utils.joinThem(evt, conf.feats, conf.csvJson, conf.joinProps)
+		})
+	})
+
+	evt.on('joined', function(col) {
+		state.newdata = col
+		state.page = 'continue'
+		state.evt.emit('continue', state)
+		save.json('edited.json', conf.joined)
+	})
+
+	evt.on('cancel', function() {
+		state.page = 'cancel'
+		state.evt.emit('cancel', state)
+	})
+}
+
+
