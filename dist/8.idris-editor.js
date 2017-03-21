@@ -1,4 +1,4 @@
-webpackJsonp([0],{
+webpackJsonp([8],{
 
 /***/ 22:
 /***/ (function(module, exports) {
@@ -135,6 +135,233 @@ exports.uniq = function(arr) {
 
 /***/ }),
 
+/***/ 5:
+/***/ (function(module, exports, __webpack_require__) {
+
+var html = __webpack_require__(56)
+var ctrl = __webpack_require__(54)
+var getBy = __webpack_require__(55)
+var Emitter = __webpack_require__(1).EventEmitter
+var geo = __webpack_require__(57)
+var save = __webpack_require__(27)
+
+
+module.exports = function(state, callback) {
+	var config = { divId: 'root', feats: state.data.features }
+	var evt = new Emitter()
+	config.props = geo.getAllProperties(config.feats)
+	html.init(config, function() {
+		ctrl.init(evt)
+	})
+
+	evt.on('property', function(prop) {
+		config.prop = prop
+		config.values = geo.getUniqPropertyValues(config.feats, prop)
+		if(geo.numericValues(config.feats, prop)) {
+			html.num(config, function() {
+				ctrl.num(evt)
+			})
+		} else {
+			html.notNum(config, function() {
+				ctrl.notNum(evt)
+			})
+		}
+	})
+
+	evt.on('values', function(values) {
+		config.values = values
+		var col = getBy.values(config)
+		state.page = 'continue'
+		state.newdata = col
+		state.evt.emit('continue', state)
+		save.json('selected-by-property.json', col)
+	})
+
+	evt.on('rule', function(resp) {
+		config.rule = resp 
+		var col = getBy.rule(config)
+		state.page = 'continue'
+		state.newdata = col
+		state.evt.emit('continue', state)
+		save.json('selected-by-property.json', col)
+	})
+
+	evt.on('cancel', function() {
+		state.page = 'cancel'
+		state.evt.emit('cancel', state)
+	})
+}
+
+
+/***/ }),
+
+/***/ 54:
+/***/ (function(module, exports) {
+
+exports.init = function(evt) {
+	document.getElementById('btn-prop').onclick = function() {
+		evt.emit('property', document.getElementById('select-prop').value)
+	}
+	cancelBtn(evt)
+} 
+
+exports.notNum = function(evt) {
+	document.getElementById('get-checked').onclick = function() {
+		var vals = getChecked(true)
+		evt.emit('values', vals)
+	}	
+	document.getElementById('get-not-checked').onclick = function() {
+		var vals = getChecked(false)
+		evt.emit('values', vals)
+	}
+	cancelBtn(evt)
+}
+
+exports.num = function(evt) {
+	document.getElementById('by-rule-btn').onclick = function() {
+		var operator = document.getElementById('operator').value
+		var value = document.getElementById('value').value
+		if(value) {
+			evt.emit('rule', { operator: operator, value: +value })
+		}
+	}
+	cancelBtn(evt)
+}
+
+function cancelBtn(evt) {
+	document.getElementById('cancel').onclick = function() {
+		evt.emit('cancel')
+	}
+}
+
+function getChecked(bool) {
+	var cbs = document.getElementsByClassName('checkbox-input')
+	var checked = []
+	var notChecked = []
+	for(i=0;i<cbs.length;i++) {
+		if(cbs[i].checked) { checked.push(cbs[i].id) } else { notChecked.push(cbs[i].id) }
+	}
+	if(bool) { return checked }
+	else { return notChecked }
+}
+
+
+/***/ }),
+
+/***/ 55:
+/***/ (function(module, exports) {
+
+exports.values = function(c) {
+	var toKeep = []
+	c.feats.forEach(function(f) {
+		var v = f.properties[c.prop]
+		if(isIn(v, c.values)) {
+			toKeep.push(f)
+		}
+	})
+	return col(toKeep)
+}
+
+exports.rule = function(c) {
+	var toKeep = []
+	c.feats.forEach(function(f) {
+		var v = f.properties[c.prop]
+		if(c.rule.operator === '<') { if(v < c.rule.value) { toKeep.push(f) } }
+		else if(c.rule.operator === '<=') { if(v <= c.rule.value) { toKeep.push(f) } }
+		else if(c.rule.operator === '=') { if(v === c.rule.value) { toKeep.push(f) } }
+		else if(c.rule.operator === '>=') { if(v >= c.rule.value) { toKeep.push(f) } }
+		else if(c.rule.operator === '>') { if(v > c.rule.value) { toKeep.push(f) } }
+	})
+	return col(toKeep)
+}
+
+function isIn(val, vals) {
+	var r = false 
+	vals.forEach(function(v) {
+		if(v === val) { r = true }	
+	})
+	return r
+}
+
+
+function col(feats) {
+	return {type: 'FeatureCollection', features: feats}
+}
+
+
+/***/ }),
+
+/***/ 56:
+/***/ (function(module, exports, __webpack_require__) {
+
+var xml = __webpack_require__(0)
+
+exports.init = function(c, callback) {
+	var div = xml.create('div')
+	div.c('p').c('b').d('Choose property')
+	var select = div.c('select').a({ id: 'select-prop' })
+	div.c('button').a({ id: 'btn-prop' }).d('OK')
+	c.props.forEach(function(p) {
+		select.c('option').a({ value: p }).d(p)
+	})
+	div.c('br')
+	div.c('button').a({ id: 'cancel' }).d('Cancel')
+
+	document.getElementById(c.divId).innerHTML = div.inner()
+	callback()
+}
+
+exports.notNum = function(c, callback) {
+	var div = xml.create('div')
+	div.c('p').c('b').d('Select values')
+	var scroll = div.c('div').a({ 'class': 'scroll-y' })
+	div.c('button').a({ id: 'get-checked' }).d('Use selected values')
+	div.c('button').a({ id: 'get-not-checked' }).d('Use unselected values')
+	c.values.forEach(function(v) {
+		var d = scroll.c('div').a({ 'class': 'checkbox-item' })
+		d.c('input').a({ id: v, 'class': 'checkbox-input', type: 'checkbox' })
+		d.c('span').d(short(v))
+	})
+	div.c('br')
+	div.c('button').a({ id: 'cancel' }).d('Cancel')
+
+	document.getElementById(c.divId).innerHTML = div.inner()
+	callback()
+}
+
+exports.num = function(c, callback) { 
+	var div = xml.create('div')
+	div.c('p').c('b').d('Get Features')
+	div.c('p').d('where ' + c.prop)
+	var s = div.c('select').a({ id: 'operator' })
+		s.c('option').a({ value: '<' }).d('is less than')
+		s.c('option').a({ value: '<=' }).d('is less or equal to')
+		s.c('option').a({ value: '=' }).d('is equal to')
+		s.c('option').a({ value: '>=' }).d('is greater or equal to')
+		s.c('option').a({ value: '>' }).d('is greater than')
+	div.c('input').a({ id: 'value', type: 'number', placeholder: 'value' })
+	div.c('button').a({ id: 'by-rule-btn' }).d('OK')
+	div.c('br')
+	div.c('button').a({ id: 'cancel' }).d('Cancel')
+
+	document.getElementById(c.divId).innerHTML = div.inner()
+	callback()
+}
+
+function short(n) {
+	if(n.length > 20) {
+		var str = ''
+		for(i=0;i<18;i++) { str = str + n[i] }
+		str = str + '...'
+		return str
+	} else {
+		return n
+	}
+}
+
+
+/***/ }),
+
 /***/ 57:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -262,118 +489,6 @@ exports.propInfo = function(feats) {
 }
 
 
-
-
-/***/ }),
-
-/***/ 60:
-/***/ (function(module, exports, __webpack_require__) {
-
-var geo = __webpack_require__(57)
-var html = __webpack_require__(62)
-var ctrl = __webpack_require__(61)
-var save = __webpack_require__(27)
-var Emitter = __webpack_require__(1).EventEmitter
-var process = __webpack_require__(63)
-
-module.exports = function(state) {
-	var divId = 'root'
-	var data = state.data
-	var evt = new Emitter()
-	var props = geo.getAllProperties(data.features)
-
-	html.init(divId, props, function() {
-		ctrl.init(evt)
-	})
-
-	evt.on('props-to-keep', function(props) {
-		process(data.features, props, function(feats) { 
-			state.newdata = {type: 'FeatureCollection', features: feats}
-			state.page = 'continue'
-			state.evt.emit('continue', state)
-			save.json('edited.json', state.newdata)
-		})
-	})
-
-	evt.on('cancel', function() {
-		state.page = 'cancel'
-		state.evt.emit('cancel', state)
-	})
-}
-
-
-/***/ }),
-
-/***/ 61:
-/***/ (function(module, exports) {
-
-exports.init = function(evt) {
-	document.getElementById('rm-selected').onclick = function() {
-		var vals = getChecked(false)
-		evt.emit('props-to-keep', vals)
-	}	
-	document.getElementById('rm-unselected').onclick = function() {
-		var vals = getChecked(true)
-		evt.emit('props-to-keep', vals)
-	}
-	document.getElementById('cancel').onclick = function() {
-		evt.emit('cancel')
-	}
-}
-
-
-function getChecked(bool) {
-	var cbs = document.getElementsByClassName('checkbox-input')
-	var checked = []
-	var notChecked = []
-	for(i=0;i<cbs.length;i++) {
-		if(cbs[i].checked) { checked.push(cbs[i].id) } else { notChecked.push(cbs[i].id) }
-	}
-	if(bool) { return checked }
-	else { return notChecked }
-}
-
-
-/***/ }),
-
-/***/ 62:
-/***/ (function(module, exports, __webpack_require__) {
-
-var xml = __webpack_require__(0)
-
-exports.init = function(divId, props, callback) {
-	var div = xml.create('div')
-	div.c('p').c('b').d('Choose properties')
-	var scroll = div.c('div').a({ 'class': 'scroll-y' })
-	props.forEach(function(p) {
-		var d = scroll.c('div').a({ 'class': 'checkbox-item' })
-		d.c('input').a({ id: p, 'class': 'checkbox-input', type: 'checkbox'})
-		d.c('span').d(p)
-	})
-	div.c('button').a({ id: 'rm-selected' }).d('Remove selected')
-	div.c('button').a({ id: 'rm-unselected' }).d('Remove not selected')
-	div.c('button').a({ id: 'cancel' }).d('Cancel')
-
-	document.getElementById(divId).innerHTML = div.inner()
-	callback()
-}
-
-
-/***/ }),
-
-/***/ 63:
-/***/ (function(module, exports) {
-
-module.exports = function(feats, props, callback) {
-	var newFeats = []
-	feats.forEach(function(f) {
-		var newProps = {}
-		props.forEach(function(p) { newProps[p] = f.properties[p] })
-		f.properties = newProps
-		newFeats.push(f)
-	})
-	callback(newFeats)
-}
 
 
 /***/ })

@@ -38,7 +38,12 @@ state.evt.on('select-by-click', function(state) {
 	})
 })
 state.evt.on('prop-add', function(state) { console.log(state) })
-state.evt.on('prop-rem', function(state) { console.log(state) })
+state.evt.on('prop-rem', function(state) {
+	require.ensure(['./components/edit-properties-remove'], function(require) {
+		var propRem = require('./components/edit-properties-remove') 
+		propRem(state)
+	})
+})
 state.evt.on('cancel', function(state) { mainMenu(state) })
 state.evt.on('continue', function(state) { continuePrompt(state) })
 state.evt.on('restart', function(state) { init({evt: state.evt}) })
