@@ -45,4 +45,9 @@ module.exports = function(state, callback) {
 		state.evt.emit('continue', state)
 		save.json('selected-by-property.json', col)
 	})
+
+	evt.on('cancel', function() {
+		state.page = 'cancel'
+		state.evt.emit('cancel', state)
+	})
 }

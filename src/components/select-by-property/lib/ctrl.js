@@ -2,6 +2,7 @@ exports.init = function(evt) {
 	document.getElementById('btn-prop').onclick = function() {
 		evt.emit('property', document.getElementById('select-prop').value)
 	}
+	cancelBtn(evt)
 } 
 
 exports.notNum = function(evt) {
@@ -13,6 +14,7 @@ exports.notNum = function(evt) {
 		var vals = getChecked(false)
 		evt.emit('values', vals)
 	}
+	cancelBtn(evt)
 }
 
 exports.num = function(evt) {
@@ -22,6 +24,13 @@ exports.num = function(evt) {
 		if(value) {
 			evt.emit('rule', { operator: operator, value: +value })
 		}
+	}
+	cancelBtn(evt)
+}
+
+function cancelBtn(evt) {
+	document.getElementById('cancel').onclick = function() {
+		evt.emit('cancel')
 	}
 }
 

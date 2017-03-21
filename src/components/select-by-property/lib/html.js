@@ -8,7 +8,9 @@ exports.init = function(c, callback) {
 	c.props.forEach(function(p) {
 		select.c('option').a({ value: p }).d(p)
 	})
-	
+	div.c('br')
+	div.c('button').a({ id: 'cancel' }).d('Cancel')
+
 	document.getElementById(c.divId).innerHTML = div.inner()
 	callback()
 }
@@ -24,6 +26,8 @@ exports.notNum = function(c, callback) {
 		d.c('input').a({ id: v, 'class': 'checkbox-input', type: 'checkbox' })
 		d.c('span').d(short(v))
 	})
+	div.c('br')
+	div.c('button').a({ id: 'cancel' }).d('Cancel')
 
 	document.getElementById(c.divId).innerHTML = div.inner()
 	callback()
@@ -41,6 +45,8 @@ exports.num = function(c, callback) {
 		s.c('option').a({ value: '>' }).d('is greater than')
 	div.c('input').a({ id: 'value', type: 'number', placeholder: 'value' })
 	div.c('button').a({ id: 'by-rule-btn' }).d('OK')
+	div.c('br')
+	div.c('button').a({ id: 'cancel' }).d('Cancel')
 
 	document.getElementById(c.divId).innerHTML = div.inner()
 	callback()

@@ -185,6 +185,11 @@ module.exports = function(state, callback) {
 		state.evt.emit('continue', state)
 		save.json('selected-by-property.json', col)
 	})
+
+	evt.on('cancel', function() {
+		state.page = 'cancel'
+		state.evt.emit('cancel', state)
+	})
 }
 
 
@@ -197,6 +202,7 @@ exports.init = function(evt) {
 	document.getElementById('btn-prop').onclick = function() {
 		evt.emit('property', document.getElementById('select-prop').value)
 	}
+	cancelBtn(evt)
 } 
 
 exports.notNum = function(evt) {
@@ -208,6 +214,7 @@ exports.notNum = function(evt) {
 		var vals = getChecked(false)
 		evt.emit('values', vals)
 	}
+	cancelBtn(evt)
 }
 
 exports.num = function(evt) {
@@ -217,6 +224,13 @@ exports.num = function(evt) {
 		if(value) {
 			evt.emit('rule', { operator: operator, value: +value })
 		}
+	}
+	cancelBtn(evt)
+}
+
+function cancelBtn(evt) {
+	document.getElementById('cancel').onclick = function() {
+		evt.emit('cancel')
 	}
 }
 
@@ -290,7 +304,9 @@ exports.init = function(c, callback) {
 	c.props.forEach(function(p) {
 		select.c('option').a({ value: p }).d(p)
 	})
-	
+	div.c('br')
+	div.c('button').a({ id: 'cancel' }).d('Cancel')
+
 	document.getElementById(c.divId).innerHTML = div.inner()
 	callback()
 }
@@ -306,6 +322,8 @@ exports.notNum = function(c, callback) {
 		d.c('input').a({ id: v, 'class': 'checkbox-input', type: 'checkbox' })
 		d.c('span').d(short(v))
 	})
+	div.c('br')
+	div.c('button').a({ id: 'cancel' }).d('Cancel')
 
 	document.getElementById(c.divId).innerHTML = div.inner()
 	callback()
@@ -323,6 +341,8 @@ exports.num = function(c, callback) {
 		s.c('option').a({ value: '>' }).d('is greater than')
 	div.c('input').a({ id: 'value', type: 'number', placeholder: 'value' })
 	div.c('button').a({ id: 'by-rule-btn' }).d('OK')
+	div.c('br')
+	div.c('button').a({ id: 'cancel' }).d('Cancel')
 
 	document.getElementById(c.divId).innerHTML = div.inner()
 	callback()
