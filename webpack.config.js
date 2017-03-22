@@ -20,13 +20,11 @@ module.exports = {
 			{from: 'src/public/img'},
 			{from: 'src/public/images', to: 'images'},
 		]),
-/*
 		new webpack.DefinePlugin({
 				'process.env': {
 				  NODE_ENV: JSON.stringify('developement')
 				}
 		}),
 		new UglifyJsPlugin({cacheFolder: 'cache'})
-*/
 	]
 }
